@@ -130,22 +130,17 @@ public class Join extends JFrame{
 		JButton joinb = new JButton("가입");
 		joinb.setBounds(12, 273, 104, 21);
 		contentPane.add(joinb);
-		JButton cancelb = new JButton("취소");
-		cancelb.setBounds(129, 273, 104, 21);
-		contentPane.add(cancelb);
-		cancelb.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
+		
 		joinb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				char[] pass = passwd.getPassword();
 				String pass_1;
 				String gibonCode="";
-				pass_1 = new String(pass, 0, pass.length);
-				Enumeration<AbstractButton> enums = buttonGroup.getElements();
+				pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
 				
+				
+				Enumeration<AbstractButton> enums = buttonGroup.getElements();
 				while(enums.hasMoreElements()) {            // hasMoreElements() Enum에 더 꺼낼 개체가 있는지 체크한다. 없으며 false 반환
 				    AbstractButton ab = enums.nextElement();    // 제네릭스가 AbstractButton 이니까 당연히 AbstractButton으로 받아야함
 				    JRadioButton jb = (JRadioButton)ab;         // 형변환. 물론 윗줄과 이줄을 합쳐서 바로 형변환 해서 받아도 된다.
@@ -153,7 +148,17 @@ public class Join extends JFrame{
 				    if(jb.isSelected())                         // 받아낸 라디오버튼의 체크 상태를 확인한다. 체크되었을경우 true 반환.
 				        gibonCode = jb.getText().trim(); //getText() 메소드로 문자열 받아낸다.
 				}
+				
+				MessengerDTO dto = new MessgengerDTO()
 
+			}
+		});
+		JButton cancelb = new JButton("취소");
+		cancelb.setBounds(129, 273, 104, 21);
+		contentPane.add(cancelb);
+		cancelb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
 		});
 	}

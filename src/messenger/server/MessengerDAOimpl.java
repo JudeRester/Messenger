@@ -62,8 +62,11 @@ public class MessengerDAOimpl implements MessengerDAO{
 			DataBaseUtil.printSQLException(e, 
 					this.getClass().getName()+
 					": int insertMember(MemberDTO member)");
+		}finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+			
 		}
-		return 0;
+		return cnt;
 	}
 	@Override
 	public int updateMember(MemberDTO member) {
