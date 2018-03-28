@@ -21,7 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 public class Join extends JFrame{
 	private JPanel contentPane;
-	private JTextField id, birth, phno, name, alias;
+	private JTextField id, birth, phone, name, alias;
 	private JPasswordField passwd;
 	private JPasswordField passch;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -110,10 +110,10 @@ public class Join extends JFrame{
 		contentPane.add(birth);
 		birth.setColumns(10);
 		
-		phno = new JTextField();
-		phno.setBounds(116, 238, 117, 16);
-		contentPane.add(phno);
-		phno.setColumns(10);
+		phone = new JTextField();
+		phone.setBounds(116, 238, 117, 16);
+		contentPane.add(phone);
+		phone.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(116, 170, 117, 32);
@@ -168,7 +168,7 @@ public class Join extends JFrame{
 //					pstmt.setString(3, loc.toString());
 //					pstmt.setString(4, gibonCode);
 //					pstmt.setString(5, birth.getText());
-//					pstmt.setString(6, phno.getText());
+//					pstmt.setString(6, phone.getText());
 //					
 //					pstmt.executeUpdate();
 //				} catch (SQLException e1) {

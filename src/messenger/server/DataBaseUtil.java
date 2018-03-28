@@ -47,10 +47,19 @@ public class DataBaseUtil {
 	
 	public static Connection getConnection() throws SQLException {
 		Connection con = dataSource.getConnection();
-		con.setAutoCommit(false);
+//		con.setAutoCommit(false);
 		return con;
 	}
 	
+	public static void close (PreparedStatement pstmt, ResultSet rs) {
+		try {
+			if (rs!=null)rs.close();
+			if(pstmt!=null)pstmt.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		rs=null; pstmt=null;
+	}
 	public static void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
 		try {
 			if (pstmt != null ) pstmt.close();
@@ -92,7 +101,25 @@ public class DataBaseUtil {
 		}
 		stmt = null; conn =null;
 	}
-	
+	public static void close(Connection conn) {
+		try {
+			if (conn!=null) conn.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		conn = null;
+	}
+	public static void printSQLException(SQLException e) {
+		while (e!=null) {
+			System.err.println("SQLState : "+e.getSQLState());
+			System.err.println("Error Code : "+e.getErrorCode());
+			System.err.println("Message : "+e.getMessage());
+			Throwable t = e.getCause();
+			while(t!=null) {
+				
+			}
+		}
+	}
 //	public static void main(String[] args) {
 //		DataBaseUtil.getInstance();
 //	}

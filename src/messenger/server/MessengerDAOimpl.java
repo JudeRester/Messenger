@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import messenger.common.MemberDTO;
 
 public class MessengerDAOimpl implements MessengerDAO{
@@ -50,8 +49,20 @@ public class MessengerDAOimpl implements MessengerDAO{
 	}
 	@Override
 	public int insertMember(MemberDTO member) {
-
-		
+		int cnt = 0;
+		StringBuffer sql = new StringBuffer();
+		sql.append("insert into member ")
+			.append("id, passwd, name, alias, loc, sex, birth, phone) ")
+			.append("values (?,?,?,?,?,?,?,?)");
+		try {
+			pstmt = conn.prepareStatement(sql.toString());
+			
+			pstmt.setString(1, member.getId());
+		}catch (SQLException e) {
+			DataBaseUtil.printSQLException(e, 
+					this.getClass().getName()+
+					": int insertMember(MemberDTO member)");
+		}
 		return 0;
 	}
 	@Override
