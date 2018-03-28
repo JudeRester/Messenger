@@ -70,7 +70,15 @@ public class DataBaseUtil {
 		}
 		pstmt = null; rs = null; conn =null;
 	}
-	
+	public static void close(Statement stmt, ResultSet rs) {
+		try {
+			if (rs != null ) rs.close();						
+			if (stmt != null ) stmt.close();		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		rs = null; stmt = null; 
+	}
 	public static void close(Connection conn, Statement stmt, ResultSet rs) {
 		try {
 			if (stmt != null ) stmt.close();
@@ -109,6 +117,15 @@ public class DataBaseUtil {
 		}
 		conn = null;
 	}
+	public static void close(PreparedStatement pstmt) {
+		try {
+			if (pstmt != null ) pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		pstmt = null;
+	}
+	
 	public static void printSQLException(SQLException e) {
 		while (e!=null) {
 			System.err.println("SQLState : "+e.getSQLState());
@@ -116,8 +133,34 @@ public class DataBaseUtil {
 			System.err.println("Message : "+e.getMessage());
 			Throwable t = e.getCause();
 			while(t!=null) {
-				
+				System.out.println("Cause : "+t);
+				t= t.getCause();
 			}
+			e = e.getNextException();
+		}
+	}
+	public static void close(Statement stmt) {
+		try {
+			if (stmt != null ) stmt.close();		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		stmt = null; 
+	}
+	
+	
+	public static void printSQLException(SQLException e, String errLoc) {
+		System.err.println("Errloc :"+errLoc);
+		while(e!=null) {
+			System.err.println("SQLState : "+e.getSQLState());
+			System.err.println("Error Code : "+e.getErrorCode());
+			System.err.println("Message : "+e.getMessage());
+			Throwable t  =  e.getCause();
+			while(t!=null) {
+				System.out.println("Cause : "+t);
+				t = t.getCause();
+			}
+			e=e.getNextException();
 		}
 	}
 //	public static void main(String[] args) {
