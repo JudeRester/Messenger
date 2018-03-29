@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 import messenger.common.MemberDTO;
 import messenger.server.MessengerDAOimpl;
+import validate.Validation;
 
 public class Join extends JFrame{
 	private JPanel contentPane;
@@ -32,7 +33,7 @@ public class Join extends JFrame{
 	
 	PreparedStatement pstmt;
 	Connection conn;
-
+	Validation val = new Validation();
 	public Join(JFrame frame, String title) {
 		
 
@@ -149,12 +150,11 @@ public class Join extends JFrame{
 					id.requestFocus();
 					return;
 					}
-				
-//				if() {
-//					JOptionPane.showMessageDialog(null, "올바른 이메일 형식을 사용하세요", "", JOptionPane.WARNING_MESSAGE);
-//					id.requestFocus();
-//					return;
-//				}
+				if(!val.EmailVali(id.getText())) {
+					JOptionPane.showMessageDialog(null, "올바른 이메일 형식을 사용하세요", "", JOptionPane.WARNING_MESSAGE);
+					id.requestFocus();
+					return;
+				}
 				if(name.getText().trim().equals("")) {
 					JOptionPane.showMessageDialog(null, "이름을 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
 					name.requestFocus();

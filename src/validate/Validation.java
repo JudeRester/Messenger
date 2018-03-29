@@ -9,12 +9,9 @@ public class Validation {
 		
 		return a;
 	}
-	public static boolean PassVali(String pass) {
+	public boolean PassVali(String pass) {
 		String pattern = "^([a-zA-Z0-9!@#%&*()^$]){8,16}+$";
 		boolean a = Pattern.matches(pattern, pass);
 		return a;
 	}
 }
-
-
-
