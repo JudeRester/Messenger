@@ -67,11 +67,18 @@ public class MessengerDAOimpl implements MessengerDAO{
 			pstmt.setString(8, member.getPhone());
 			
 			cnt = pstmt.executeUpdate();
-			
-		}catch (SQLException e) {
-			DataBaseUtil.printSQLException(e, 
-					this.getClass().getName()+
-					": int insertMember(MemberDTO member)");
+			if (cnt == 1) {
+				conn.commit();
+			} else {
+				throw new RecordNotFoundException();
+			}
+		}catch (SQLException | RecordNotFoundException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
 		}finally {
 			DataBaseUtil.close(conn, pstmt, rs);
 			
