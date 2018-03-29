@@ -174,15 +174,31 @@ public class Join extends JFrame{
 					loc.requestFocus();
 					return;
 				}
-				
+				int rc = 0;
 				Enumeration<AbstractButton> enums = buttonGroup.getElements();
-				while(enums.hasMoreElements()) {            // hasMoreElements() Enum에 더 꺼낼 개체가 있는지 체크한다. 없으며 false 반환
+				while(enums.hasMoreElements()) {            // hasMoreElements() Enum에 더 꺼낼 개체가 있는지 체크한다. 없으며 false 반환	
 				    AbstractButton ab = enums.nextElement();    // 제네릭스가 AbstractButton 이니까 당연히 AbstractButton으로 받아야함
 				    JRadioButton jb = (JRadioButton)ab;         // 형변환. 물론 윗줄과 이줄을 합쳐서 바로 형변환 해서 받아도 된다.
-				    if(jb.isSelected())                         // 받아낸 라디오버튼의 체크 상태를 확인한다. 체크되었을경우 true 반환.
+				    if(jb.isSelected()) {			// 받아낸 라디오버튼의 체크 상태를 확인한다. 체크되었을경우 true 반환.
 				        sex = jb.getText().trim(); //getText() 메소드로 문자열 받아낸다.
+				        rc+=1;
+				    }
 				}
-				
+				if(rc==0) {
+					JOptionPane.showMessageDialog(null, "성별을 체크해주세요", "", JOptionPane.WARNING_MESSAGE);
+					radioButton.requestFocus();
+					return;
+				}
+				if(birth.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "생년월일을 입력해주세요", "", JOptionPane.WARNING_MESSAGE);
+					birth.requestFocus();
+					return;
+				}
+				if(phone.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "휴대폰 번호를 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
+					phone.requestFocus();
+					return;
+				}
 				
 				MemberDTO dto = new MemberDTO(id.getText(),pass_1, name.getText(), alias.getText(), 
 							String.valueOf(loc.getSelectedItem()),sex, birth.getText(), phone.getText());
