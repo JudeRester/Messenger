@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="D:/Program Files/Java/jre/lib/ext/commons-logging-1.2/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="D:/Program Files/Java/jre/lib/ext/commons-dbcp2-2.2.0/commons-dbcp2-2.2.0.jar"/>
 	<classpathentry kind="lib" path="D:/Program Files/Java/jre/lib/ext/commons-collections4-4.1/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="D:/Program Files/Java/jre/lib/ext/ojdbc6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

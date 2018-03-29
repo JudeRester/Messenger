@@ -13,7 +13,7 @@ public class MessengerDAOimpl implements MessengerDAO{
 	Statement stmt;
 	PreparedStatement pstmt;
 	ResultSet rs;
-	MessengerDAOimpl() throws SQLException {
+	public MessengerDAOimpl() throws SQLException {
 		conn = DataBaseUtil.getConnection();
 	}
 	@Override
@@ -52,12 +52,22 @@ public class MessengerDAOimpl implements MessengerDAO{
 		int cnt = 0;
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into member ")
-			.append("id, passwd, name, alias, loc, sex, birth, phone) ")
+			.append("(id, passwd, name, alias, loc, sex, birth, phone) ")
 			.append("values (?,?,?,?,?,?,?,?)");
 		try {
 			pstmt = conn.prepareStatement(sql.toString());
 			
 			pstmt.setString(1, member.getId());
+			pstmt.setString(2, member.getPasswd());
+			pstmt.setString(3, member.getName());
+			pstmt.setString(4, member.getAlias());
+			pstmt.setString(5, member.getLoc());
+			pstmt.setString(6, member.getSex());
+			pstmt.setString(7, member.getBirth());
+			pstmt.setString(8, member.getPhone());
+			
+			cnt = pstmt.executeUpdate();
+			
 		}catch (SQLException e) {
 			DataBaseUtil.printSQLException(e, 
 					this.getClass().getName()+

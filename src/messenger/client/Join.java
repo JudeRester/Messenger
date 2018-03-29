@@ -19,6 +19,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import messenger.common.MemberDTO;
+import messenger.server.MessengerDAOimpl;
+
 public class Join extends JFrame{
 	private JPanel contentPane;
 	private JTextField id, birth, phone, name, alias;
@@ -136,7 +139,7 @@ public class Join extends JFrame{
 				
 				char[] pass = passwd.getPassword();
 				String pass_1;
-				String gibonCode="";
+				String sex="";
 				pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
 				
 				
@@ -146,11 +149,20 @@ public class Join extends JFrame{
 				    JRadioButton jb = (JRadioButton)ab;         // 형변환. 물론 윗줄과 이줄을 합쳐서 바로 형변환 해서 받아도 된다.
 				 
 				    if(jb.isSelected())                         // 받아낸 라디오버튼의 체크 상태를 확인한다. 체크되었을경우 true 반환.
-				        gibonCode = jb.getText().trim(); //getText() 메소드로 문자열 받아낸다.
+				        sex = jb.getText().trim(); //getText() 메소드로 문자열 받아낸다.
 				}
 				
-				MessengerDTO dto = new MessgengerDTO()
-
+				MemberDTO dto = new MemberDTO(id.getText(),pass_1, name.getText(), alias.getText(), 
+							String.valueOf(loc.getSelectedItem()),sex, birth.getText(), phone.getText());
+				try {
+					MessengerDAOimpl dao = new MessengerDAOimpl();
+					dao.insertMember(dto);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		});
 		JButton cancelb = new JButton("취소");
