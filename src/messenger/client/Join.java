@@ -45,7 +45,7 @@ public class Join extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		String[] item = {"서울","경기","부산","광주","인천","대구","대전","청주"};
+		String[] item = {"--지역--","서울","경기","부산","광주","인천","대구","대전","청주"};
 		
 		JLabel lblNewLabel_1 = new JLabel("아이디");
 		lblNewLabel_1.setBounds(12, 10, 92, 16);
@@ -142,17 +142,43 @@ public class Join extends JFrame{
 				String pass_1;
 				String sex="";
 				pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
-				
+				char[] passc = passch.getPassword();
+				String passch_1 = new String(passc,0,passc.length);
 				if(id.getText().trim().equals("")) {
 					JOptionPane.showMessageDialog(null, "아이디를 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
 					id.requestFocus();
 					return;
 					}
+				if(name.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(null, "이름을 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
+					name.requestFocus();
+					return;
+				}
+				if(alias.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(null, "별명을 입력해주세요", "", JOptionPane.WARNING_MESSAGE);
+					alias.requestFocus();
+					return;
+				}
+				if(pass_1.equals("")) {
+					JOptionPane.showMessageDialog(null, "패스워드를 입력해주세요", "", JOptionPane.WARNING_MESSAGE);
+					passwd.requestFocus();
+					return;
+				}
+				if(!passch_1.equals(pass_1)) {
+					JOptionPane.showMessageDialog(null, "패스워드를 확인해 주세요","",JOptionPane.WARNING_MESSAGE);
+					passch.requestFocus();
+					return;
+				}
+				if(loc.getSelectedIndex()==0) {
+					JOptionPane.showMessageDialog(null, "지역을 선택해 주세요", "", JOptionPane.WARNING_MESSAGE);
+					loc.requestFocus();
+					return;
+				}
+				
 				Enumeration<AbstractButton> enums = buttonGroup.getElements();
 				while(enums.hasMoreElements()) {            // hasMoreElements() Enum에 더 꺼낼 개체가 있는지 체크한다. 없으며 false 반환
 				    AbstractButton ab = enums.nextElement();    // 제네릭스가 AbstractButton 이니까 당연히 AbstractButton으로 받아야함
 				    JRadioButton jb = (JRadioButton)ab;         // 형변환. 물론 윗줄과 이줄을 합쳐서 바로 형변환 해서 받아도 된다.
-				 
 				    if(jb.isSelected())                         // 받아낸 라디오버튼의 체크 상태를 확인한다. 체크되었을경우 true 반환.
 				        sex = jb.getText().trim(); //getText() 메소드로 문자열 받아낸다.
 				}
