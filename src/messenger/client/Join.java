@@ -47,7 +47,7 @@ public class Join extends JFrame{
 		contentPane.setLayout(null);
 		String[] item = {"--지역--","서울","경기","부산","광주","인천","대구","대전","청주"};
 		
-		JLabel lblNewLabel_1 = new JLabel("아이디");
+		JLabel lblNewLabel_1 = new JLabel("아이디(이메일)");
 		lblNewLabel_1.setBounds(12, 10, 92, 16);
 		contentPane.add(lblNewLabel_1);
 		
@@ -149,6 +149,12 @@ public class Join extends JFrame{
 					id.requestFocus();
 					return;
 					}
+				
+//				if() {
+//					JOptionPane.showMessageDialog(null, "올바른 이메일 형식을 사용하세요", "", JOptionPane.WARNING_MESSAGE);
+//					id.requestFocus();
+//					return;
+//				}
 				if(name.getText().trim().equals("")) {
 					JOptionPane.showMessageDialog(null, "이름을 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
 					name.requestFocus();
