@@ -1,5 +1,6 @@
 package messenger.client;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -35,53 +36,61 @@ public class Join extends JFrame{
 	Connection conn;
 	Validation val = new Validation();
 	public Join(JFrame frame, String title) {
-		
-
-		setBounds(100, 100, 261, 342);
+		setBounds(100, 100, 261, 389);
 		setResizable(false);
 		setVisible(true);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		String[] item = {"--지역--","서울","경기","부산","광주","인천","대구","대전","청주"};
 		
 		JLabel lblNewLabel_1 = new JLabel("아이디(이메일)");
+		lblNewLabel_1.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_1.setBounds(12, 10, 92, 16);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel = new JLabel("이름");
-		lblNewLabel.setBounds(12, 36, 57, 15);
+		lblNewLabel.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel.setBounds(12, 68, 57, 15);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_8 = new JLabel("별명");
-		lblNewLabel_8.setBounds(12, 61, 57, 15);
+		lblNewLabel_8.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel_8.setBounds(12, 93, 57, 15);
 		contentPane.add(lblNewLabel_8);
 		
 		JLabel lblNewLabel_2 = new JLabel("패스워드");
-		lblNewLabel_2.setBounds(12, 89, 92, 16);
+		lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel_2.setBounds(12, 118, 92, 16);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("패스워드 확인");
-		lblNewLabel_3.setBounds(12, 115, 92, 16);
+		lblNewLabel_3.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel_3.setBounds(12, 170, 92, 16);
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("지역");
-		lblNewLabel_4.setBounds(12, 141, 92, 16);
+		lblNewLabel_4.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel_4.setBounds(12, 196, 92, 16);
 		contentPane.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("성별");
-		lblNewLabel_5.setBounds(12, 178, 92, 16);
+		lblNewLabel_5.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel_5.setBounds(12, 230, 92, 16);
 		contentPane.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel("생년월일");
-		lblNewLabel_6.setBounds(12, 212, 92, 16);
+		lblNewLabel_6.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel_6.setBounds(12, 269, 92, 16);
 		contentPane.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("휴대폰번호");
-		lblNewLabel_7.setBounds(12, 238, 92, 16);
+		lblNewLabel_7.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel_7.setBounds(12, 295, 92, 16);
 		contentPane.add(lblNewLabel_7);
 		
 		id = new JTextField();
@@ -90,50 +99,56 @@ public class Join extends JFrame{
 		id.setColumns(10);
 		
 		name = new JTextField();
-		name.setBounds(116, 35, 117, 16);
+		name.setBounds(116, 67, 117, 16);
 		contentPane.add(name);
 		name.setColumns(10);
 		
 		alias = new JTextField();
-		alias.setBounds(116, 61, 117, 16);
+		alias.setBounds(116, 93, 117, 16);
 		contentPane.add(alias);
 		alias.setColumns(10);
 		
 		passwd = new JPasswordField();
-		passwd.setBounds(116, 87, 117, 16);
+		passwd.setBounds(116, 119, 117, 16);
 		contentPane.add(passwd);
 		
 		passch = new JPasswordField();
-		passch.setBounds(116, 113, 117, 16);
+		passch.setBounds(116, 170, 117, 16);
 		contentPane.add(passch);
 		JComboBox loc = new JComboBox(item);
-		loc.setBounds(116, 139, 117, 21);
+		loc.setBounds(116, 196, 117, 21);
 		contentPane.add(loc);
 		
 		birth = new JTextField();
-		birth.setBounds(116, 212, 117, 16);
+		birth.setBounds(116, 269, 117, 16);
 		contentPane.add(birth);
 		birth.setColumns(10);
 		
 		phone = new JTextField();
-		phone.setBounds(116, 238, 117, 16);
+		phone.setBounds(116, 295, 117, 16);
 		contentPane.add(phone);
 		phone.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(116, 170, 117, 32);
+		panel_2.setForeground(Color.LIGHT_GRAY);
+		panel_2.setBackground(Color.BLACK);
+		panel_2.setBounds(116, 227, 117, 32);
 		contentPane.add(panel_2);
 		
 		JRadioButton radioButton = new JRadioButton("남");
+		radioButton.setForeground(Color.LIGHT_GRAY);
+		radioButton.setBackground(Color.BLACK);
 		buttonGroup.add(radioButton);
 		panel_2.add(radioButton);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("여");
+		rdbtnNewRadioButton.setForeground(Color.LIGHT_GRAY);
+		rdbtnNewRadioButton.setBackground(Color.BLACK);
 		buttonGroup.add(rdbtnNewRadioButton);
 		panel_2.add(rdbtnNewRadioButton);
 		
 		JButton joinb = new JButton("가입");
-		joinb.setBounds(12, 273, 104, 21);
+		joinb.setBounds(12, 321, 104, 21);
 		contentPane.add(joinb);
 		
 		joinb.addActionListener(new ActionListener() {
@@ -220,8 +235,17 @@ public class Join extends JFrame{
 			}
 		});
 		JButton cancelb = new JButton("취소");
-		cancelb.setBounds(129, 273, 104, 21);
+		cancelb.setBounds(129, 321, 104, 21);
 		contentPane.add(cancelb);
+		
+		JButton idcheck = new JButton("중복 확인");
+		idcheck.setBounds(116, 36, 117, 21);
+		contentPane.add(idcheck);
+		
+		JLabel lblNewLabel_9 = new JLabel("최소 8자리 최대 16자리");
+		lblNewLabel_9.setForeground(Color.LIGHT_GRAY);
+		lblNewLabel_9.setBounds(86, 145, 147, 15);
+		contentPane.add(lblNewLabel_9);
 		cancelb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();

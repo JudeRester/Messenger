@@ -1,5 +1,6 @@
 package messenger.client;
 
+import java.awt.Color;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ public class FindPW extends JFrame{
 		contentPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		contentPane.setBackground(Color.BLACK);
 		
 		id = new JTextField();
 		id.setBounds(94, 10, 116, 21);
@@ -45,14 +47,19 @@ public class FindPW extends JFrame{
 		
 		JLabel label = new JLabel("아이디");
 		label.setBounds(12, 10, 57, 15);
+		label.setForeground(Color.LIGHT_GRAY);
+
 		contentPane.add(label);
 		
 		JLabel label_1 = new JLabel("생년월일");
 		label_1.setBounds(12, 42, 57, 15);
+		label_1.setForeground(Color.LIGHT_GRAY);
+
 		contentPane.add(label_1);
 		
 		JLabel label_2 = new JLabel("휴대폰번호");
 		label_2.setBounds(12, 75, 70, 15);
+		label_2.setForeground(Color.LIGHT_GRAY);
 		contentPane.add(label_2);
 		
 		JButton submit = new JButton("Submit");

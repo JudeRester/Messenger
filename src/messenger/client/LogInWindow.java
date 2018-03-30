@@ -1,5 +1,6 @@
 package messenger.client;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,10 +20,12 @@ public class LogInWindow extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 369, 331);
+		
 		contentPane = new JPanel();
 //		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		contentPane.setBackground(Color.BLACK);
 		
 		
 		main_img = new JLabel(new ImageIcon("img/다운로드.jpg"));
@@ -30,6 +33,7 @@ public class LogInWindow extends JFrame {
 		add(main_img);
 		
 		JLabel idl = new JLabel("아이디");
+		idl.setForeground(Color.LIGHT_GRAY);
 		idl.setBounds(18, 205, 51, 15);
 		contentPane.add(idl);
 		
@@ -41,6 +45,7 @@ public class LogInWindow extends JFrame {
 		
 		JLabel pwl = new JLabel("비밀번호");
 		pwl.setBounds(18, 230, 58, 15);
+		pwl.setForeground(Color.LIGHT_GRAY);
 		contentPane.add(pwl);
 		
 		pw = new JPasswordField();
