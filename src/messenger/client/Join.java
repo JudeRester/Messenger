@@ -1,6 +1,8 @@
 package messenger.client;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -37,6 +39,7 @@ public class Join extends JFrame{
 	PreparedStatement pstmt;
 	Connection conn;
 	Validation val = new Validation();
+	
 	public Join(JFrame frame, String title) {
 		setBounds(100,100,245, 358);
 		setLocationRelativeTo(null);
@@ -44,7 +47,8 @@ public class Join extends JFrame{
 		setUndecorated(true);
 		setVisible(true);
 		
-		
+	    Point mainFrameLocation = new Point(0, 0);
+	    Point mouseClickedLocation = new Point(0, 0);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		contentPane = new JPanel();
@@ -52,14 +56,15 @@ public class Join extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-//		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
-//			@Override
-//			public void mouseDragged(MouseEvent e) {
-//				int x= e.getX();
-//				int y=e.getY();
-//				setLocation(x, y);
-//			}
-//		});
+		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				setLocation(e.getLocationOnScreen().x - mouseClickedLocation.x,
+                e.getLocationOnScreen().y - mouseClickedLocation.y);
+//				Rectangle size = getBounds();
+//				setBounds( e.getX() + size.x , e.getY() + size.y, size.width, size.height ); 
+			}
+		});
 		String[] item = {"--지역--","서울","경기","부산","광주","인천","대구","대전","청주"};
 		
 		JLabel lblNewLabel_1 = new JLabel("아이디(이메일)");
@@ -183,10 +188,24 @@ public class Join extends JFrame{
 					id.requestFocus();
 					return;
 				}
-				if(!id.getText().trim().equals("")&&val.EmailVali(id.getText())) {
-					JOptionPane.showMessageDialog(null, "확인되었습니다.", "", JOptionPane.INFORMATION_MESSAGE);
+				
+				MemberDTO member = new MemberDTO();
+
+				try {
+					MessengerDAOimpl dao = new MessengerDAOimpl();
+					String a = dao.checkID(id.getText());
+					if(a.equals(id.getText())) {
+						JOptionPane.showMessageDialog(null, "사용중인 아이디 입니다.", "", JOptionPane.WARNING_MESSAGE);
+						a= "";
+						return;
+					}else if(!a.equals(id.getText())){
+						JOptionPane.showMessageDialog(null, "사용가능한 아이디 입니다.", "", JOptionPane.INFORMATION_MESSAGE);
 					joinb.setEnabled(true);
+					}
+				}catch(SQLException e1) {
+					e1.printStackTrace();
 				}
+				
 			}
 		});
 		

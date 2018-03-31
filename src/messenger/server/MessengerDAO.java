@@ -7,7 +7,7 @@ import messenger.common.MemberDTO;
 public interface MessengerDAO {
 	
 	// 회원조회
-		MemberDTO getMember(String id);
+		String checkID(String id);
 
 		// 회원등록
 		int insertMember(MemberDTO member);
