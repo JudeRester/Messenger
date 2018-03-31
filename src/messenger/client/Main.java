@@ -5,6 +5,6 @@ public class Main {
 		LogInWindow L = new LogInWindow();
 		L.setVisible(true);
 		L.setTitle("J Messenger");
-		
+//		L.setLocationRelativeTo(null);
 	}
 }

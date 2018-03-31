@@ -3,6 +3,8 @@ package messenger.client;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -36,9 +38,13 @@ public class Join extends JFrame{
 	Connection conn;
 	Validation val = new Validation();
 	public Join(JFrame frame, String title) {
-		setBounds(100, 100, 261, 389);
+		setBounds(100,100,245, 358);
+		setLocationRelativeTo(null);
 		setResizable(false);
+		setUndecorated(true);
 		setVisible(true);
+		
+		
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		contentPane = new JPanel();
@@ -46,6 +52,14 @@ public class Join extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+//		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
+//			@Override
+//			public void mouseDragged(MouseEvent e) {
+//				int x= e.getX();
+//				int y=e.getY();
+//				setLocation(x, y);
+//			}
+//		});
 		String[] item = {"--지역--","서울","경기","부산","광주","인천","대구","대전","청주"};
 		
 		JLabel lblNewLabel_1 = new JLabel("아이디(이메일)");
@@ -148,18 +162,17 @@ public class Join extends JFrame{
 		panel_2.add(rdbtnNewRadioButton);
 		
 		JButton joinb = new JButton("가입");
+		joinb.setEnabled(false);
 		joinb.setBounds(12, 321, 104, 21);
 		contentPane.add(joinb);
 		
-		joinb.addActionListener(new ActionListener() {
+		JButton idcheck = new JButton("중복 확인");
+		idcheck.setBounds(116, 36, 117, 21);
+		contentPane.add(idcheck);
+		idcheck.addActionListener(new ActionListener() {
+			
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				char[] pass = passwd.getPassword();
-				String pass_1;
-				String sex="";
-				pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
-				char[] passc = passch.getPassword();
-				String passch_1 = new String(passc,0,passc.length);
 				if(id.getText().trim().equals("")) {
 					JOptionPane.showMessageDialog(null, "아이디를 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
 					id.requestFocus();
@@ -170,6 +183,23 @@ public class Join extends JFrame{
 					id.requestFocus();
 					return;
 				}
+				if(!id.getText().trim().equals("")&&val.EmailVali(id.getText())) {
+					JOptionPane.showMessageDialog(null, "확인되었습니다.", "", JOptionPane.INFORMATION_MESSAGE);
+					joinb.setEnabled(true);
+				}
+			}
+		});
+		
+		joinb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				char[] pass = passwd.getPassword();
+				String pass_1;
+				String sex="";
+				pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
+				char[] passc = passch.getPassword();
+				String passch_1 = new String(passc,0,passc.length);
+				
 				if(name.getText().trim().equals("")) {
 					JOptionPane.showMessageDialog(null, "이름을 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
 					name.requestFocus();
@@ -237,10 +267,6 @@ public class Join extends JFrame{
 		JButton cancelb = new JButton("취소");
 		cancelb.setBounds(129, 321, 104, 21);
 		contentPane.add(cancelb);
-		
-		JButton idcheck = new JButton("중복 확인");
-		idcheck.setBounds(116, 36, 117, 21);
-		contentPane.add(idcheck);
 		
 		JLabel lblNewLabel_9 = new JLabel("최소 8자리 최대 16자리");
 		lblNewLabel_9.setForeground(Color.LIGHT_GRAY);
