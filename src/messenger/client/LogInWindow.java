@@ -3,15 +3,24 @@ package messenger.client;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import messenger.server.MessengerDAOimpl;
 
 public class LogInWindow extends JFrame {
 	private JPanel contentPane;
-	private JTextField ID;
+	private JTextField id;
 	private JButton loginbtn, joinbtn,findid,findpw;
-	private JPasswordField pw;
+	private JPasswordField passwd;
 	private JLabel main_img;
 	private JFrame jframe2;
 	
@@ -38,21 +47,21 @@ public class LogInWindow extends JFrame {
 		idl.setBounds(18, 205, 51, 15);
 		contentPane.add(idl);
 		
-		ID = new JTextField();
-		ID.setBounds(81, 205, 179, 21);
-		ID.setToolTipText("ID");
-		contentPane.add(ID);
-		ID.setColumns(10);
+		id = new JTextField();
+		id.setBounds(81, 205, 179, 21);
+		id.setToolTipText("id");
+		contentPane.add(id);
+		id.setColumns(10);
 		
 		JLabel pwl = new JLabel("비밀번호");
 		pwl.setBounds(18, 230, 58, 15);
 		pwl.setForeground(Color.LIGHT_GRAY);
 		contentPane.add(pwl);
 		
-		pw = new JPasswordField();
-		pw.setBounds(81, 227, 179, 21);
-		pw.setToolTipText("PASSWORD");
-		contentPane.add(pw);
+		passwd = new JPasswordField();
+		passwd.setBounds(81, 227, 179, 21);
+		passwd.setToolTipText("PASSWORD");
+		contentPane.add(passwd);
 		
 
 		
@@ -60,7 +69,20 @@ public class LogInWindow extends JFrame {
 		loginbtn.setBounds(264, 205, 77, 40);
 		loginbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				try {
+					char[] pass = passwd.getPassword();
+					String pass_1;
+					pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
+					MessengerDAOimpl dao = new MessengerDAOimpl();
+					int a = dao.Login(id.getText(), pass_1);
+					if(a==1) {
+						System.out.println(a);
+					}else {
+						JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 확인해 주세요", "", JOptionPane.WARNING_MESSAGE);
+					}
+				}catch(SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 			contentPane.add(loginbtn);

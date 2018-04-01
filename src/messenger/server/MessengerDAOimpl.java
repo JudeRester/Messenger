@@ -123,5 +123,23 @@ public class MessengerDAOimpl implements MessengerDAO{
 		}
 		return pw;
 	}
+	@Override
+	public int Login(String id, String pass) {
+		int cnt=0;
+		StringBuffer sql = new StringBuffer();
+		sql.append("select id, passwd from member where id = ? and passwd = ?");
+		try {
+			pstmt=conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);	
+			pstmt.setString(2, pass);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				cnt++;
+			}
+		}catch(SQLException e1) {
+			e1.printStackTrace();
+		}
+		return cnt;
+	}
 	
 }
