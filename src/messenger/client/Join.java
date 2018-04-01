@@ -262,12 +262,21 @@ public class Join extends JFrame{
 					birth.requestFocus();
 					return;
 				}
+				if(!val.DateVali(birth.getText())){
+					JOptionPane.showMessageDialog(null, "올바른 날짜를 입력하세요", "", JOptionPane.WARNING_MESSAGE);
+					birth.requestFocus();
+					return;
+				}
 				if(phone.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "휴대폰 번호를 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
 					phone.requestFocus();
 					return;
 				}
-				
+				if(!val.PhoneVali(phone.getText())) {
+					JOptionPane.showMessageDialog(null, "올바른 번호를 입력하세요", "", JOptionPane.WARNING_MESSAGE);
+					phone.requestFocus();
+					return;
+				}
 				MemberDTO dto = new MemberDTO(id.getText(),pass_1, name.getText(), alias.getText(), 
 							String.valueOf(loc.getSelectedItem()),sex, birth.getText(), phone.getText());
 				try {

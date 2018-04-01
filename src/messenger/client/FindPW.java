@@ -1,29 +1,33 @@
 package messenger.client;
 
 import java.awt.Color;
-import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+
+import messenger.server.MessengerDAOimpl;
+import validate.Validation;
 
 public class FindPW extends JFrame{
 	private JPanel contentPane;
 	private JTextField id;
 	private JTextField birth;
 	private JTextField phone;
-	
+	private Validation val = new Validation();
 	public FindPW(JFrame jframe, String title) {
 		setResizable(false);
 		setVisible(true);
-
 		setTitle("비밀번호 찾기");
 		setBounds(100, 100, 238, 174);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		setContentPane(contentPane);
@@ -65,6 +69,45 @@ public class FindPW extends JFrame{
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(id.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(null, "아이디를 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
+					id.requestFocus();
+					return;
+					}
+				if(!val.EmailVali(id.getText())) {
+					JOptionPane.showMessageDialog(null, "올바른 이메일 형식을 사용하세요", "", JOptionPane.WARNING_MESSAGE);
+					id.requestFocus();
+					return;
+				}
+				if(birth.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "생년월일을 입력해주세요", "", JOptionPane.WARNING_MESSAGE);
+					birth.requestFocus();
+					return;
+				}
+				if(!val.DateVali(birth.getText())){
+					JOptionPane.showMessageDialog(null, "올바른 날짜를 입력하세요", "", JOptionPane.WARNING_MESSAGE);
+					birth.requestFocus();
+					return;
+				}
+				if(phone.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "휴대폰 번호를 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
+					phone.requestFocus();
+					return;
+				}
+				if(!val.PhoneVali(phone.getText())) {
+					JOptionPane.showMessageDialog(null, "올바른 번호를 입력하세요", "", JOptionPane.WARNING_MESSAGE);
+					phone.requestFocus();
+					return;
+				}
+				try {
+					MessengerDAOimpl dao = new MessengerDAOimpl();
+					String a =null;
+					a = dao.findPasswd(id.getText(), birth.getText(), phone.getText());
+					JOptionPane.showMessageDialog(null, "입력하신 정보와 일치하는 비밀번호\r\n"+"\""+a+"\"", "", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+				}catch(SQLException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});

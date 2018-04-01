@@ -87,13 +87,41 @@ public class MessengerDAOimpl implements MessengerDAO{
 	}
 	@Override
 	public String findId(String name, String birth, String phone) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuffer sql = new StringBuffer();
+		String id = null;
+		sql.append("select id from member where name=? and birth=? and phone=?");
+		try {
+			pstmt=conn.prepareStatement(sql.toString());
+			pstmt.setString(1, name);
+			pstmt.setString(2, birth);
+			pstmt.setString(3, phone);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				id = rs.getString("id");
+			}
+		}catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return id;
 	}
 	@Override
 	public String findPasswd(String id, String birth, String phone) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuffer sql = new StringBuffer();
+		String pw =null;
+		sql.append("select passwd from member where id=? and birth=? and phone=?");
+		try {
+			pstmt=conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			pstmt.setString(2, birth);
+			pstmt.setString(3, phone);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+			pw = rs.getString("passwd");
+			}
+		}catch(SQLException e1) {
+			e1.printStackTrace();
+		}
+		return pw;
 	}
 	
 }
