@@ -188,19 +188,17 @@ public class Join extends JFrame{
 					id.requestFocus();
 					return;
 				}
-				
-				MemberDTO member = new MemberDTO();
-
 				try {
 					MessengerDAOimpl dao = new MessengerDAOimpl();
-					String a = dao.checkID(id.getText());
-					if(a.equals(id.getText())) {
+					MemberDTO dto = new MemberDTO();
+					if(dao.checkID(id.getText())==1) {
 						JOptionPane.showMessageDialog(null, "사용중인 아이디 입니다.", "", JOptionPane.WARNING_MESSAGE);
-						a= "";
-						return;
-					}else if(!a.equals(id.getText())){
+						return ;
+					}else if(dao.checkID(id.getText())==0){
 						JOptionPane.showMessageDialog(null, "사용가능한 아이디 입니다.", "", JOptionPane.INFORMATION_MESSAGE);
-					joinb.setEnabled(true);
+						joinb.setEnabled(true);
+						id.setEditable(false);
+						return;
 					}
 				}catch(SQLException e1) {
 					e1.printStackTrace();

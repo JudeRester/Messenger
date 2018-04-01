@@ -30,6 +30,10 @@ public class MemberDTO {
 		this.birth = birth;
 		this.phone = phone;
 	}
+	public MemberDTO(String id) {
+		super();
+		this.id = id;
+	}
 
 	public String getId() {
 		return id;

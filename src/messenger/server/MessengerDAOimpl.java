@@ -17,28 +17,25 @@ public class MessengerDAOimpl implements MessengerDAO{
 		conn = DataBaseUtil.getConnection();
 	}
 	@Override
-	public String checkID(String id) {
-		MemberDTO member = new MemberDTO();
+	public int checkID(String id) {
+		int cnt=0;
 			try {
-
 				StringBuffer sql = new StringBuffer();
-				sql.append("select id ")
-				   .append("from member ")
-				   .append("where id =?");
+				sql.append("select id from member where id =?");
 		
 				pstmt = conn.prepareStatement(sql.toString());
 				pstmt.setString(1, id);
 				rs = pstmt.executeQuery();
-				rs.next();
-				member.setId(rs.getString("id"));
-				
+				while(rs.next()) {
+				cnt++;
+				}
 			}catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
 				DataBaseUtil.close(conn, pstmt, rs);
 			}
 			
-		return id;
+		return cnt;
 		
 	}
 	@Override
