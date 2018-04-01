@@ -14,4 +14,9 @@ public class Validation {
 		boolean a = Pattern.matches(pattern, pass);
 		return a;
 	}
+	public boolean DateVali(String date) {
+		String pattern = "";
+		boolean a =  Pattern.matches(pattern, date);
+		return a;
+		}
 }

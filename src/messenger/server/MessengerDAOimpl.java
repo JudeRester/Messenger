@@ -22,7 +22,6 @@ public class MessengerDAOimpl implements MessengerDAO{
 			try {
 				StringBuffer sql = new StringBuffer();
 				sql.append("select id from member where id =?");
-		
 				pstmt = conn.prepareStatement(sql.toString());
 				pstmt.setString(1, id);
 				rs = pstmt.executeQuery();

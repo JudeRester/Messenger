@@ -222,13 +222,13 @@ public class Join extends JFrame{
 					name.requestFocus();
 					return;
 				}
-				if(alias.getText().trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "별명을 입력해주세요", "", JOptionPane.WARNING_MESSAGE);
-					alias.requestFocus();
-					return;
-				}
 				if(pass_1.equals("")) {
 					JOptionPane.showMessageDialog(null, "패스워드를 입력해주세요", "", JOptionPane.WARNING_MESSAGE);
+					passwd.requestFocus();
+					return;
+				}
+				if(!val.PassVali(pass_1)) {
+					JOptionPane.showMessageDialog(null, "패스워드는 8~16자리로 영문 대/소문자, 숫자, \n\r특수문자(!,@,#,$,%,^,&,*,(,)) 만 사용 할 수 있습니다.", "", JOptionPane.WARNING_MESSAGE);
 					passwd.requestFocus();
 					return;
 				}
@@ -277,7 +277,8 @@ public class Join extends JFrame{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+				JOptionPane.showMessageDialog(null, "회원가입이 왼료되었습니다.", "", JOptionPane.INFORMATION_MESSAGE);
+				dispose();
 				
 			}
 		});
