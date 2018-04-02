@@ -212,7 +212,7 @@ public class Join extends JFrame{
 				
 				char[] pass = passwd.getPassword();
 				String pass_1;
-				String sex="";
+				
 				pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
 				char[] passc = passch.getPassword();
 				String passch_1 = new String(passc,0,passc.length);
@@ -243,6 +243,7 @@ public class Join extends JFrame{
 					return;
 				}
 				int rc = 0;
+				String sex="";
 				Enumeration<AbstractButton> enums = buttonGroup.getElements();
 				while(enums.hasMoreElements()) {            // hasMoreElements() Enum에 더 꺼낼 개체가 있는지 체크한다. 없으며 false 반환	
 				    AbstractButton ab = enums.nextElement();    // 제네릭스가 AbstractButton 이니까 당연히 AbstractButton으로 받아야함
@@ -277,6 +278,20 @@ public class Join extends JFrame{
 					phone.requestFocus();
 					return;
 				}
+				try {
+					MessengerDAOimpl dao = new MessengerDAOimpl();
+					int a = dao.checkPhone(phone.getText());
+					if(a==1) {
+						JOptionPane.showMessageDialog(null, "이미 등록된 번호입니다.", "", JOptionPane.WARNING_MESSAGE);
+						phone.requestFocus();
+						return;
+					}else if(a==0) {
+						
+					}
+					
+				}catch(SQLException e1) {
+					e1.printStackTrace();
+				}
 				MemberDTO dto = new MemberDTO(id.getText(),pass_1, name.getText(), alias.getText(), 
 							String.valueOf(loc.getSelectedItem()),sex, birth.getText(), phone.getText());
 				try {
@@ -286,7 +301,8 @@ public class Join extends JFrame{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				JOptionPane.showMessageDialog(null, "회원가입이 왼료되었습니다.", "", JOptionPane.INFORMATION_MESSAGE);
+				
+				JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 				dispose();
 				
 			}

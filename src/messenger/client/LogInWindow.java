@@ -76,9 +76,12 @@ public class LogInWindow extends JFrame {
 					MessengerDAOimpl dao = new MessengerDAOimpl();
 					int a = dao.Login(id.getText(), pass_1);
 					if(a==1) {
-						System.out.println(a);
+						System.out.println(1);
+						new Mainframe(id.getText());
+						dispose();
 					}else {
 						JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 확인해 주세요", "", JOptionPane.WARNING_MESSAGE);
+						return;
 					}
 				}catch(SQLException e1) {
 					e1.printStackTrace();

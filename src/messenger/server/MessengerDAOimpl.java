@@ -141,5 +141,26 @@ public class MessengerDAOimpl implements MessengerDAO{
 		}
 		return cnt;
 	}
+	@Override
+	public int checkPhone(String phone) {
+		int cnt=0;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("select phone from member where phone =?");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, phone);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+			cnt++;
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+		}
+		
+	return cnt;
+	
+	}
 	
 }
