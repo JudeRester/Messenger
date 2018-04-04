@@ -212,7 +212,6 @@ public class Join extends JFrame{
 				
 				char[] pass = passwd.getPassword();
 				String pass_1;
-				
 				pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
 				char[] passc = passch.getPassword();
 				String passch_1 = new String(passc,0,passc.length);
