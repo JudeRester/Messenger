@@ -263,7 +263,7 @@ public class Join extends JFrame{
 					return;
 				}
 				if(!val.DateVali(birth.getText())){
-					JOptionPane.showMessageDialog(null, "올바른 날짜를 입력하세요", "", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "올바른 날짜를 입력하세요(ex.19940307)", "", JOptionPane.WARNING_MESSAGE);
 					birth.requestFocus();
 					return;
 				}

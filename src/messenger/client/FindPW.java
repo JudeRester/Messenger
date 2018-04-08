@@ -103,6 +103,10 @@ public class FindPW extends JFrame{
 					MessengerDAOimpl dao = new MessengerDAOimpl();
 					String a =null;
 					a = dao.findPasswd(id.getText(), birth.getText(), phone.getText());
+					if(a==null) {
+						JOptionPane.showMessageDialog(null, "입력하신 정보와 일치하는 비밀번호가 없습니다.", "", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 					JOptionPane.showMessageDialog(null, "입력하신 정보와 일치하는 비밀번호\r\n"+"\""+a+"\"", "", JOptionPane.INFORMATION_MESSAGE);
 					dispose();
 				}catch(SQLException e1) {
