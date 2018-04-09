@@ -27,6 +27,8 @@ public interface MessengerDAO {
 		int Login(String id, String pass);
 
 		int checkPhone(String phone);
+
+		MemberDTO getInfo(String id);
 		
 		// 친구등록
 //		int insertFriend(FriendsDTO friend);
