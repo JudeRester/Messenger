@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import messenger.common.MemberDTO;
 
 public class MessengerDAOimpl implements MessengerDAO{
@@ -167,18 +168,50 @@ public class MessengerDAOimpl implements MessengerDAO{
 		MemberDTO member = new MemberDTO();
 		try {
 			StringBuffer sql = new StringBuffer();
-			sql.append("Select alias, birth, phone from member where id = ?");
+			sql.append("Select alias, birth, phone,loc,passwd from member where id = ?");
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				member.setAlias(rs.getString("alias"));
 				member.setBirth(rs.getString("birth"));
-				member.setPhone(rs.getString("phone"));	
+				member.setPhone(rs.getString("phone"));
+				member.setLoc(rs.getString("loc"));
+				member.setPasswd(rs.getString("passwd"));
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		return member;
 	}
+	public int changeInfo(String id, String passwd, String alias, String loc, String birth, String phone) {
+		int cnt = 0;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("update member set passwd=? ,alias= ?, loc= ?,birth=?, phone=? where id=?");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, passwd);
+			pstmt.setString(2, alias);
+			pstmt.setString(3, loc);
+			pstmt.setString(4, birth);
+			pstmt.setString(5, phone);
+			pstmt.setString(6, id);
+			cnt = pstmt.executeUpdate();
+		if (cnt == 1) {
+			conn.commit();
+		} else {
+			throw new RecordNotFoundException();
+		}}catch (SQLException | RecordNotFoundException e) {
+		try {
+			conn.rollback();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		e.printStackTrace();
+	}finally {
+		DataBaseUtil.close(conn, pstmt, rs);
+		
+	}
+	return cnt;
+}
 }

@@ -31,6 +31,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import messenger.common.MemberDTO;
 import messenger.server.MessengerDAOimpl;
+import validate.Validation;
 
 public class Mainframe extends JFrame {
 	private JPanel contentPane;
@@ -39,6 +40,7 @@ public class Mainframe extends JFrame {
 	private JPasswordField passwd;
 	private JPasswordField passwd2;
 	private MemberDTO member;
+	Validation val = new Validation();
 	public Mainframe(String id) {
 		setVisible(true);
 		setResizable(false);
@@ -220,9 +222,10 @@ public class Mainframe extends JFrame {
 						passwd.setText("");
 						
 						member = dao.getInfo(id);
-						
-						System.out.println(member.getAlias());
-						
+						alias.setText(member.getAlias());
+						loc.setSelectedItem(member.getLoc());
+						passwd2.setText(member.getPasswd());
+						passch.setText(member.getPasswd());
 						alias.setText(member.getAlias());
 						birth.setText(member.getBirth());
 						phone.setText(member.getPhone());
@@ -240,6 +243,60 @@ public class Mainframe extends JFrame {
 		JButton btnNewButton_1 = new JButton("저장");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				char[] pass = passwd2.getPassword();
+				String pass_1;
+				pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
+				char[] passc = passch.getPassword();
+				String passch_1 = new String(passc,0,passc.length);
+				
+				if(pass_1.equals("")) {
+					JOptionPane.showMessageDialog(null, "패스워드를 입력해주세요", "", JOptionPane.WARNING_MESSAGE);
+					passwd.requestFocus();
+					return;
+				}
+				if(!val.PassVali(pass_1)) {
+					JOptionPane.showMessageDialog(null, "패스워드는 8~16자리로 영문 대/소문자, 숫자, \n\r특수문자(!,@,#,$,%,^,&,*,(,)) 만 사용 할 수 있습니다.", "", JOptionPane.WARNING_MESSAGE);
+					passwd.requestFocus();
+					return;
+				}
+				if(!passch_1.equals(pass_1)) {
+					JOptionPane.showMessageDialog(null, "패스워드를 확인해 주세요","",JOptionPane.WARNING_MESSAGE);
+					passch.requestFocus();
+					return;
+				}
+				if(loc.getSelectedIndex()==0) {
+					JOptionPane.showMessageDialog(null, "지역을 선택해 주세요", "", JOptionPane.WARNING_MESSAGE);
+					loc.requestFocus();
+					return;
+				}
+				if(birth.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "생년월일을 입력해주세요", "", JOptionPane.WARNING_MESSAGE);
+					birth.requestFocus();
+					return;
+				}
+				if(!val.DateVali(birth.getText())){
+					JOptionPane.showMessageDialog(null, "올바른 날짜를 입력하세요(ex.19940307)", "", JOptionPane.WARNING_MESSAGE);
+					birth.requestFocus();
+					return;
+				}
+				if(phone.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "휴대폰 번호를 입력해 주세요", "", JOptionPane.WARNING_MESSAGE);
+					phone.requestFocus();
+					return;
+				}
+				if(!val.PhoneVali(phone.getText())) {
+					JOptionPane.showMessageDialog(null, "올바른 번호를 입력하세요", "", JOptionPane.WARNING_MESSAGE);
+					phone.requestFocus();
+					return;
+				}
+				try {
+					MessengerDAOimpl dao = new MessengerDAOimpl();
+					dao.changeInfo(id, pass_1, alias.getText(), loc.getSelectedItem().toString(), birth.getText(), phone.getText());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, "정보 수정이 완료되었습니다.", "", JOptionPane.INFORMATION_MESSAGE);
 				panel_2.setVisible(true);
 				panel_3.setVisible(false);
 				
