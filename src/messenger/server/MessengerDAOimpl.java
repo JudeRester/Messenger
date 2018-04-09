@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import messenger.common.MemberDTO;
 
@@ -75,11 +76,6 @@ public class MessengerDAOimpl implements MessengerDAO{
 			
 		}
 		return cnt;
-	}
-	@Override
-	public int updateMember(MemberDTO member) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	@Override
 	public int deleteMember(String id) {
@@ -208,10 +204,32 @@ public class MessengerDAOimpl implements MessengerDAO{
 			e1.printStackTrace();
 		}
 		e.printStackTrace();
-	}finally {
+		}finally {
 		DataBaseUtil.close(conn, pstmt, rs);
 		
+		}
+		return cnt;
 	}
-	return cnt;
-}
+	public ArrayList<MemberDTO> searchingFri(String id){
+		ArrayList<MemberDTO> abc = new ArrayList<MemberDTO>();
+		try {
+			MemberDTO member = new MemberDTO();
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("select name, id, alias from member where id=%?%");
+			pstmt=conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				member.setName(rs.getString("name"));
+				member.setId(rs.getString("id"));
+				member.setAlias(rs.getString("alias"));
+				abc.add(member);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return abc;
+		
+	}
 }

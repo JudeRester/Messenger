@@ -8,12 +8,13 @@ public interface MessengerDAO {
 	
 	// 회원조회
 		int checkID(String id);
+		MemberDTO getInfo(String id);
 
 		// 회원등록
 		int insertMember(MemberDTO member);
 		
 		// 회원수정
-		int updateMember(MemberDTO member);
+		int changeInfo(String id, String passwd, String alias, String loc, String birth, String phone);
 		
 		// 회원삭제
 		int deleteMember(String id);
@@ -28,9 +29,9 @@ public interface MessengerDAO {
 
 		int checkPhone(String phone);
 
-		MemberDTO getInfo(String id);
 
-		int changeInfo(String id, String passwd, String alias, String loc, String birth, String phone);
+
+		
 		
 		// 친구등록
 //		int insertFriend(FriendsDTO friend);
