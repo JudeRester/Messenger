@@ -228,7 +228,9 @@ public class MessengerDAOimpl implements MessengerDAO{
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
-		}
+		}finally {
+	         DataBaseUtil.close(conn, pstmt, rs);
+	      }
 		return abc;
 		
 	}
