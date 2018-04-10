@@ -28,6 +28,10 @@ public interface MessengerDAO {
 		int Login(String id, String pass);
 
 		int checkPhone(String phone);
+		//친구찾기
+		ArrayList<MemberDTO> searchingFri(String id);
+		//친구추가
+		int addFriend(String id, String friend);
 
 
 

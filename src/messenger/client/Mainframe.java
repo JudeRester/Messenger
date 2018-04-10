@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,22 +34,30 @@ import messenger.common.MemberDTO;
 import messenger.server.MessengerDAOimpl;
 import validate.Validation;
 
-public class Mainframe extends JFrame {
-	private JPanel contentPane;
+public class Mainframe {
+	static JFrame jframe;
+	private static JPanel contentPane;
 	private JTextField birth, phone, name, alias;
 	private JPasswordField passch;
 	private JPasswordField passwd;
 	private JPasswordField passwd2;
 	private MemberDTO member;
+	private DefaultMutableTreeNode rootNodenew;
+	private ArrayList<String> asd;
 	Validation val = new Validation();
+	
+
+		
 	public Mainframe(String id) {
-		setVisible(true);
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 285, 421);
-		setLocationRelativeTo(null);
+		jframe= new JFrame();
+		
+		jframe.setVisible(true);
+		jframe.setResizable(false);
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jframe.setBounds(100, 100, 285, 421);
+		jframe.setLocationRelativeTo(null);
 		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		jframe.setJMenuBar(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("메뉴");
 		menuBar.add(mnNewMenu);
@@ -57,7 +66,7 @@ public class Mainframe extends JFrame {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				jframe.dispose();
 				LogInWindow L = new LogInWindow();
 				L.setVisible(true);
 				L.setTitle("J Messenger");
@@ -67,38 +76,43 @@ public class Mainframe extends JFrame {
 		mnNewMenu.add(mntmNewMenuItem);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		jframe.setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
 		contentPane.add(tabbedPane);
-		
+		class treenodecre{
+//			DefaultMutableTreeNode rootNode;
+			public DefaultMutableTreeNode createNodes()
+			{
+				try {
+					MessengerDAOimpl dao = new MessengerDAOimpl();
+					asd = dao.loadfriend(id);
+					
+				}catch(SQLException e) {
+					e.printStackTrace();
+				}
+				DefaultMutableTreeNode rootNode=new DefaultMutableTreeNode("친구");
+
+				for(int i =0;i<asd.size();i++) {
+					rootNode.add(new DefaultMutableTreeNode(asd.get(i)));
+				}
+				return rootNode;
+			}
+		}
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("친구목록", null, panel_1, null);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel(new ImageIcon("img/icons8-plus-50.png"));
-		lblNewLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				new searchFriend();
-			}
-			
-		});
-		lblNewLabel.setBounds(207, 274, 45, 45);
-		panel_1.add(lblNewLabel);
 		
-		JTree tree = new JTree();
-		JScrollPane scrollPane = new JScrollPane(tree);
-		scrollPane.setBounds(0, 0, 254, 321);
-		panel_1.add(scrollPane);
+		
+
+		
 //		scrollPane.setViewportView(tree);
 //		tree.setBounds(0, 0, 323, 355);
-		tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("친구목록") {
-				{
-					DefaultMutableTreeNode node_1;
-//					node_1 = new DefaultMutableTreeNode("Default List");
-//					node_1.add(new DefaultMutableTreeNode("blue"));
+//		rootNodenew= new DefaultMutableTreeNode("친구목록") {
+//				{
+					//					node_1.add(new DefaultMutableTreeNode("blue"));
 //					node_1.add(new DefaultMutableTreeNode("violet"));
 //					node_1.add(new DefaultMutableTreeNode("red"));
 //					node_1.add(new DefaultMutableTreeNode("yellow"));
@@ -115,14 +129,26 @@ public class Mainframe extends JFrame {
 //					node_1.add(new DefaultMutableTreeNode("ravioli"));
 //					node_1.add(new DefaultMutableTreeNode("bananas"));
 //					add(node_1);
-				}
-			}
-		));
-		
+//				}
+//			};
+		treenodecre trc = new treenodecre();
+		rootNodenew=trc.createNodes();
+		JTree tree = new JTree(rootNodenew);
+		JScrollPane scrollPane = new JScrollPane(tree);
 		JPopupMenu popupMenu = new JPopupMenu();
+		scrollPane.setBounds(0, 0, 254, 321);
+		panel_1.add(scrollPane);
 		addPopup(tree, popupMenu);
 		
+		JButton btnNewButton_2 = new JButton("친구 추가");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new searchFriend(id);
+			}
+		});
+		scrollPane.setColumnHeaderView(btnNewButton_2);
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("삭제");
+		
 		popupMenu.add(mntmNewMenuItem_1);
 		
 		JPanel panel = new JPanel();

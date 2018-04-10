@@ -3,6 +3,13 @@ package messenger.common;
 public class MemberDTO {
 	private String id, passwd, name, alias, loc, sex, birth, phone;
 
+	public MemberDTO(String id, String name, String alias) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.alias = alias;
+	}
+
 	public MemberDTO() {
 		
 	}

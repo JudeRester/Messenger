@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import messenger.common.MemberDTO;
 
 public class MessengerDAOimpl implements MessengerDAO{
@@ -210,17 +212,19 @@ public class MessengerDAOimpl implements MessengerDAO{
 		}
 		return cnt;
 	}
+	@Override
 	public ArrayList<MemberDTO> searchingFri(String id){
 		ArrayList<MemberDTO> abc = new ArrayList<MemberDTO>();
 		try {
-			MemberDTO member = new MemberDTO();
+			MemberDTO member;
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("select name, id, alias from member where id=%?%");
+			sql.append("select name, id, alias from member where id like ?");
 			pstmt=conn.prepareStatement(sql.toString());
 			pstmt.setString(1, id);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
+				member = new MemberDTO();
 				member.setName(rs.getString("name"));
 				member.setId(rs.getString("id"));
 				member.setAlias(rs.getString("alias"));
@@ -231,6 +235,54 @@ public class MessengerDAOimpl implements MessengerDAO{
 		}finally {
 	         DataBaseUtil.close(conn, pstmt, rs);
 	      }
+		return abc;
+		
+	}
+	@Override
+	public int addFriend(String id, String friend) {
+		int cnt=0;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("insert into friends (myid, friend) values (?,?)");
+			pstmt=conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			pstmt.setString(2, friend);
+			cnt = pstmt.executeUpdate();
+			if(cnt==1) {
+				conn.commit();
+			} else {
+				throw new RecordNotFoundException();
+			}
+		}catch (SQLException | RecordNotFoundException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+		}
+		return cnt;
+		
+	}
+	public ArrayList<String> loadfriend(String myid){
+		MemberDTO member;
+		ArrayList<String> abc = new ArrayList<String>();
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("select friend from friends where myid = ?");
+			pstmt=conn.prepareStatement(sql.toString());
+			pstmt.setString(1, myid);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+			member = new MemberDTO();
+			member.setId(rs.getString("friend"));
+			abc.add(member.getId());
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		return abc;
 		
 	}
