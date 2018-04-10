@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -28,7 +27,8 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+
+import org.apache.commons.collections4.bag.TreeBag;
 
 import messenger.common.MemberDTO;
 import messenger.server.MessengerDAOimpl;
@@ -45,6 +45,7 @@ public class Mainframe {
 	private DefaultMutableTreeNode rootNodenew;
 	private ArrayList<String> asd;
 	Validation val = new Validation();
+	static private String lalala;
 	
 
 		
@@ -138,8 +139,8 @@ public class Mainframe {
 		JPopupMenu popupMenu = new JPopupMenu();
 		scrollPane.setBounds(0, 0, 254, 321);
 		panel_1.add(scrollPane);
+		lalala = (String)tree.getLastSelectedPathComponent();
 		addPopup(tree, popupMenu);
-		
 		JButton btnNewButton_2 = new JButton("친구 추가");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -148,9 +149,8 @@ public class Mainframe {
 		});
 		scrollPane.setColumnHeaderView(btnNewButton_2);
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("삭제");
-		
 		popupMenu.add(mntmNewMenuItem_1);
-		
+		mntmNewMenuItem_1.addActionListener(new MenuActionListener());
 		JPanel panel = new JPanel();
 		tabbedPane.addTab("개인정보 수정", null, panel, null);
 		panel.setLayout(new CardLayout(0, 0));
@@ -349,5 +349,25 @@ public class Mainframe {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	class MenuActionListener implements ActionListener { 
+		public void actionPerformed(ActionEvent e) {
+			String cmd = e.getActionCommand(); 
+			switch(cmd) { // 메뉴 아이템의 종류 구분
+				case "삭제" :
+					try {
+					MessengerDAOimpl dao = new MessengerDAOimpl();
+					
+					}catch(SQLException e1) {
+						e1.printStackTrace();
+					}
+//				case "Hide" :
+//					imgLabel.setVisible(false); break;
+//				case "ReShow" :
+//					imgLabel.setVisible(true); break;
+//				case "Exit" :
+//					System.exit(0); break;
+			}
+		}
 	}
 }

@@ -81,7 +81,8 @@ public class MessengerDAOimpl implements MessengerDAO{
 	}
 	@Override
 	public int deleteMember(String id) {
-		// TODO Auto-generated method stub
+		StringBuffer sql = new StringBuffer();
+//		sql.append("delete )
 		return 0;
 	}
 	@Override
