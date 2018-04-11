@@ -19,19 +19,21 @@ import javax.swing.table.DefaultTableModel;
 import messenger.common.MemberDTO;
 import messenger.server.MessengerDAOimpl;
 
-public class searchFriend extends JFrame{
+public class searchFriend {
+	static JFrame jframe2;
 	private JPanel contentPane;
 	private JTextField id;
 	private JTable table;
 	private ArrayList<MemberDTO> result;
 	public searchFriend(String myid) {
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 336, 271);
-		setLocationRelativeTo(null);
+		jframe2 = new JFrame();
+		jframe2.setVisible(true);
+		jframe2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		jframe2.setBounds(100, 100, 336, 271);
+		jframe2.setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		jframe2.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		id = new JTextField();

@@ -81,9 +81,30 @@ public class MessengerDAOimpl implements MessengerDAO{
 	}
 	@Override
 	public int deleteMember(String id) {
+		int cnt =0;
 		StringBuffer sql = new StringBuffer();
-//		sql.append("delete )
-		return 0;
+		sql.append("delete from friends where friend =?");
+		try {
+			pstmt=conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			cnt=pstmt.executeUpdate();
+			if (cnt >0) {
+				conn.commit();
+			} else {
+				throw new RecordNotFoundException();
+			}
+		}catch (SQLException | RecordNotFoundException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+			
+		}
+		return cnt;
 	}
 	@Override
 	public String findId(String name, String birth, String phone) {
@@ -101,6 +122,9 @@ public class MessengerDAOimpl implements MessengerDAO{
 			}
 		}catch (SQLException e1) {
 			e1.printStackTrace();
+		}finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+			
 		}
 		return id;
 	}
@@ -120,6 +144,9 @@ public class MessengerDAOimpl implements MessengerDAO{
 			}
 		}catch(SQLException e1) {
 			e1.printStackTrace();
+		}finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+			
 		}
 		return pw;
 	}
@@ -138,6 +165,9 @@ public class MessengerDAOimpl implements MessengerDAO{
 			}
 		}catch(SQLException e1) {
 			e1.printStackTrace();
+		}finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+			
 		}
 		return cnt;
 	}
@@ -168,6 +198,7 @@ public class MessengerDAOimpl implements MessengerDAO{
 		try {
 			StringBuffer sql = new StringBuffer();
 			sql.append("Select alias, birth, phone,loc,passwd from member where id = ?");
+			conn = DataBaseUtil.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
@@ -180,6 +211,9 @@ public class MessengerDAOimpl implements MessengerDAO{
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
+		}finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+			
 		}
 		return member;
 	}
@@ -283,8 +317,63 @@ public class MessengerDAOimpl implements MessengerDAO{
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
+		}finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+			
 		}
 		return abc;
 		
+	}
+	@Override
+	public int deleteAccount(String id) {
+		StringBuffer sql = new StringBuffer();
+		StringBuffer sql2 = new StringBuffer();
+		int cnt =0;
+		sql.append("delete from friends where myid =? or friend=?");
+		sql2.append("delete from member where id = ?");
+		try {
+			pstmt=conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			pstmt.setString(2, id);
+			pstmt.executeUpdate();
+			
+			cnt=pstmt.executeUpdate();
+			System.out.println(cnt);
+			if (cnt >0) {
+				conn.commit();
+			} else {
+				throw new RecordNotFoundException();
+			}
+		}catch (SQLException | RecordNotFoundException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		try {
+			pstmt=conn.prepareStatement(sql2.toString());
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			
+			cnt=pstmt.executeUpdate();
+			if (cnt >0) {
+				conn.commit();
+			} else {
+				throw new RecordNotFoundException();
+			}
+		}catch (SQLException | RecordNotFoundException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			DataBaseUtil.close(conn, pstmt, rs);
+			
+		}
+		return cnt;
 	}
 }

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -27,10 +28,10 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
-
-import org.apache.commons.collections4.bag.TreeBag;
+import javax.swing.tree.TreePath;
 
 import messenger.common.MemberDTO;
+import messenger.server.MessengerDAO;
 import messenger.server.MessengerDAOimpl;
 import validate.Validation;
 
@@ -46,10 +47,14 @@ public class Mainframe {
 	private ArrayList<String> asd;
 	Validation val = new Validation();
 	static private String lalala;
+	static private JTree tree;
+	static String bbc;
+//	private DefaultMutableTreeNode selectedNode;
 	
 
 		
 	public Mainframe(String id) {
+		bbc = id;
 		jframe= new JFrame();
 		
 		jframe.setVisible(true);
@@ -62,11 +67,34 @@ public class Mainframe {
 		
 		JMenu mnNewMenu = new JMenu("메뉴");
 		menuBar.add(mnNewMenu);
-		
+		JMenuItem d_account = new JMenuItem("회원 탈퇴");
+		d_account.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int i  = JOptionPane.showConfirmDialog(null, "탈퇴 리얼?", "", JOptionPane.OK_CANCEL_OPTION);
+				if(i==0) {
+					try {
+						MessengerDAOimpl dao = new MessengerDAOimpl();
+						dao.deleteAccount(id);
+							JOptionPane.showMessageDialog(null, "이용해 주셔서 감사합니다", "", JOptionPane.INFORMATION_MESSAGE);
+							searchFriend.jframe2.dispose();
+							jframe.dispose();
+							LogInWindow L = new LogInWindow();
+							L.setVisible(true);
+							L.setTitle("J Messenger");
+						
+					}catch(SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+				return;
+			}
+		});
 		JMenuItem mntmNewMenuItem = new JMenuItem("로그아웃");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				searchFriend.jframe2.dispose();
 				jframe.dispose();
 				LogInWindow L = new LogInWindow();
 				L.setVisible(true);
@@ -75,6 +103,7 @@ public class Mainframe {
 		});
 		mntmNewMenuItem.setSelected(true);
 		mnNewMenu.add(mntmNewMenuItem);
+		mnNewMenu.add(d_account);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		jframe.setContentPane(contentPane);
@@ -134,7 +163,7 @@ public class Mainframe {
 //			};
 		treenodecre trc = new treenodecre();
 		rootNodenew=trc.createNodes();
-		JTree tree = new JTree(rootNodenew);
+		tree=new JTree(rootNodenew);
 		JScrollPane scrollPane = new JScrollPane(tree);
 		JPopupMenu popupMenu = new JPopupMenu();
 		scrollPane.setBounds(0, 0, 254, 321);
@@ -235,7 +264,7 @@ public class Mainframe {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					MessengerDAOimpl dao = new MessengerDAOimpl();
+					MessengerDAO dao = new MessengerDAOimpl();
 					char[] pass = passwd.getPassword();
 					String pass_1;
 					pass_1 = new String(pass, 0, pass.length);//passwordField의 인자를 String 값으로 반환하여 pass_1에 저장
@@ -330,12 +359,15 @@ public class Mainframe {
 		});
 		btnNewButton_1.setBounds(76, 275, 97, 23);
 		panel_3.add(btnNewButton_1);
-		
 	}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				 if (e.getClickCount() == 2) {
+		        	  String tn =String.valueOf(tree.getLastSelectedPathComponent());
+		        	  new ChattingWindow(bbc,tn);
+			}
 				if (e.isPopupTrigger()) {
 					showMenu(e);
 				}
@@ -350,16 +382,27 @@ public class Mainframe {
 			}
 		});
 	}
-	class MenuActionListener implements ActionListener { 
+	class MenuActionListener implements ActionListener {
+		
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand(); 
+			String tn =String.valueOf(tree.getLastSelectedPathComponent());
+			
 			switch(cmd) { // 메뉴 아이템의 종류 구분
 				case "삭제" :
+					if(JOptionPane.showConfirmDialog(null, "정말 삭제하시겠습니까", "", JOptionPane.OK_CANCEL_OPTION)==0) {
 					try {
 					MessengerDAOimpl dao = new MessengerDAOimpl();
-					
+					int cc=dao.deleteMember(tn);
+					System.out.println(cc);
+					if(cc>0) {
+						JOptionPane.showMessageDialog(null, "친구 삭제가 완료되었습니다", "", JOptionPane.INFORMATION_MESSAGE);
+						Mainframe.jframe.dispose();
+						new Mainframe(bbc);
+					}
 					}catch(SQLException e1) {
 						e1.printStackTrace();
+					}
 					}
 //				case "Hide" :
 //					imgLabel.setVisible(false); break;

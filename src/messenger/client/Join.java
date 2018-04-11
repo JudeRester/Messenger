@@ -295,14 +295,19 @@ public class Join extends JFrame{
 							String.valueOf(loc.getSelectedItem()),sex, birth.getText(), phone.getText());
 				try {
 					MessengerDAOimpl dao = new MessengerDAOimpl();
-					dao.insertMember(dto);
+					if(dao.insertMember(dto)>0) {
+						JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다.", "", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+					}else {
+						JOptionPane.showMessageDialog(null, "Please try it again", "", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
-				JOptionPane.showMessageDialog(null, "회원가입이 완료되었습니다.", "", JOptionPane.INFORMATION_MESSAGE);
-				dispose();
+				
 				
 			}
 		});

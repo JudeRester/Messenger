@@ -16,8 +16,11 @@ public interface MessengerDAO {
 		// 회원수정
 		int changeInfo(String id, String passwd, String alias, String loc, String birth, String phone);
 		
-		// 회원삭제
+		// 친구삭제
 		int deleteMember(String id);
+		
+		// 회원 탈퇴
+		int deleteAccount(String id);
 		
 		// 아이디찾기
 		String findId(String name, String birth, String phone);

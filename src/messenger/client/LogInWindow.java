@@ -76,7 +76,6 @@ public class LogInWindow extends JFrame {
 					MessengerDAOimpl dao = new MessengerDAOimpl();
 					int a = dao.Login(id.getText(), pass_1);
 					if(a==1) {
-						System.out.println(1);
 						new Mainframe(id.getText());
 						dispose();
 					}else {
