@@ -27,14 +27,14 @@ public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
 		
 		//pipeline.addLast(sslCtx.newHandler(arg0.alloc())); 보안을 강화
 		//문자열을 주고받기 위한 객체====
-		//pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
+		pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
 		
-		pipeline.addLast(new ByteToMessageDecoder() {
+		/*pipeline.addLast(new ByteToMessageDecoder() {
 			@Override
 			public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception{
 				out.add(in.readableBytes());
 			}
-		});
+		});*/
 		pipeline.addLast(new StringDecoder());
 		pipeline.addLast(new StringEncoder());
 		//문자열======

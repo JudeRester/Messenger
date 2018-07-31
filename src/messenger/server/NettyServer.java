@@ -19,7 +19,7 @@ public class NettyServer {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new NettyServer(50001).run();
+		new NettyServer(5500).run();
 	}
 	
 	public void run() throws Exception{
