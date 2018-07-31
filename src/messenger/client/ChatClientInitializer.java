@@ -1,4 +1,4 @@
-package messenger.server;
+package messenger.client;
 
 import java.util.List;
 
@@ -13,31 +13,23 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.ssl.SslContext;
+import messenger.server.ChatServerHandler;
 
-public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
+public class ChatClientInitializer extends ChannelInitializer<SocketChannel> {
 	private final SslContext sslCtx;
 	
-	public ChatServerInitializer(SslContext sslCtx) {
+	public ChatClientInitializer(SslContext sslCtx) {
 		this.sslCtx = sslCtx;
 	}
-
+	
 	@Override
 	protected void initChannel(SocketChannel arg0) throws Exception {
 		ChannelPipeline pipeline = arg0.pipeline();
 		
-		//pipeline.addLast(sslCtx.newHandler(arg0.alloc())); 보안을 강화
-		//문자열을 주고받기 위한 객체====
-		//pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
-		
-		pipeline.addLast(new ByteToMessageDecoder() {
-			@Override
-			public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception{
-				out.add(in.readableBytes());
-			}
-		});
+		//pipeline.addLast(sslCtx.newHandler(arg0.alloc(), ChatClient.HOST, ChatClient.Port));
+		pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
 		pipeline.addLast(new StringDecoder());
 		pipeline.addLast(new StringEncoder());
-		//문자열======
 		
 		pipeline.addLast(new ChatServerHandler());
 	}
